@@ -9,16 +9,22 @@ const CocktailList = () => {
   if(loading) {
     return <Loading />
   }
-  if(cocktails.length < 1) {
-      // eslint-disable-next-line no-unused-expressions
-     return  <h2 className='section-title'>
-        No cocktails mathced your search criteria
+  if (cocktails.length < 1) {
+    return (
+      <h2 className='section-title'>
+        no cocktails matched your search criteria
       </h2>
+    )
   }
   return (
-    <div>
-      <h2>cocktail list component</h2>
-    </div>
+    <section className='section'>
+      <h2 className='section-title'>cocktails</h2>
+     <div className="cocktails-center">
+       {cocktails.map((item) => { //maping through the cocktails
+         return <Cocktail  key={item.id} {...item} />
+       })};
+     </div>
+    </section>
   )
 }
 

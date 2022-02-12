@@ -5,10 +5,9 @@ const url = 'https://www.thecocktaildb.com/api/json/v1/1/search.php?s='
 const AppContext = React.createContext()
 
 const AppProvider = ({ children }) => {
-  const [loading, setLoading] = useState(true);
-const [searchTerm, setSearchTerm] = useState('a');
-const [cocktails, setCocktails] = useState([]);
-
+  const [loading, setLoading] = useState(true)
+  const [searchTerm, setSearchTerm] = useState('a')
+  const [cocktails, setCocktails] = useState([])
 
 // fetch with asyc
 const fetchDrinks = async () => {
@@ -17,16 +16,16 @@ const fetchDrinks = async () => {
   // try for cocktails
   try {
     
-    const resp = await fetch(`${url}${searchTerm}`);
-    const data = await resp.json();
+    const response = await fetch(`${url}${searchTerm}`)
+    const data = await response.json();
     console.log(data);
     const {drinks} = data;
     if(drinks) {
       const newCocktails = drinks.map((item) => { //iterate through drinks 
         const {idDrink, strDrink, strDrinkThumb, strAlcoholic, strGlass} = item; //destructing 
         return {id: idDrink, name : strDrink, image: strDrinkThumb, info: strAlcoholic, glass: strGlass } //renaming when we send
-        setCocktails(newCocktails); // we return the newCocktials
       })
+      setCocktails(newCocktails); // we return the newCocktials
 
     } else {
       setCocktails([]);
@@ -47,8 +46,13 @@ useEffect(() => {
 
 },[searchTerm])
 
-  return <AppContext.Provider value={{loading, searchTerm, cocktails, setSearchTerm}}
-  >{children}</AppContext.Provider>
+return (
+  <AppContext.Provider
+    value={{ loading, cocktails, searchTerm, setSearchTerm }}
+  >
+    {children}
+  </AppContext.Provider>
+)
 }
 // make sure use
 export const useGlobalContext = () => {
